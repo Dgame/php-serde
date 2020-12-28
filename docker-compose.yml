@@ -1,13 +1,15 @@
 version: "3.7"
 
 services:
-  php-fpm:
-    container_name: php
+  php-serde:
+    container_name: php-serde
     build:
-      dockerfile: ./.docker/Dockerfile
+      dockerfile: ./.docker/php/Dockerfile
       context: .
       args:
         USER_ID: $USER_ID
     env_file: .env
+    environment:
+      XDEBUG_CONFIG: remote_host=host.docker.internal
     volumes:
       - .:/var/www/html/:delegated

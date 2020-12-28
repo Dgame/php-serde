@@ -1,11 +1,12 @@
-DOCKER_PHP_SERVICE = php-fs
+DOCKER_PHP_SERVICE = php-serde
 
 .PHONY: new up kill test analyse install update validate dump-autoload index
 
+env:
+	cp .env.dist .env
 new: kill
-	#cp .env.dist .env
 	docker-compose up -d --build --remove-orphans
-	make install
+	make update
 up:
 	docker-compose up -d
 kill:

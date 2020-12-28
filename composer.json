@@ -1,9 +1,9 @@
 {
-    "name": "dgame/php",
+    "name": "dgame/php-serde",
     "type": "library",
     "description": "",
     "keywords": [],
-    "homepage": "https://github.com/Dgame/php",
+    "homepage": "https://github.com/Dgame/php-serde",
     "license": "MIT",
     "authors": [
         {
@@ -17,12 +17,9 @@
     "require-dev": {
         "ergebnis/composer-normalize": "^2.4",
         "php-parallel-lint/php-parallel-lint": "^1.2",
-        "phpmd/phpmd": "^2.8",
         "phpstan/phpstan": "^0.12",
         "phpunit/phpunit": "^9.4",
-        "psalm/phar": "^3.11",
-        "slevomat/coding-standard": "dev-master",
-        "spaceemotion/php-coding-standard": "dev-master"
+        "spaceemotion/php-coding-standard": "dev-wip/v1"
     },
     "config": {
         "platform": {
@@ -34,6 +31,11 @@
     "autoload": {
         "psr-4": {
             "Dgame\\Serde\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Dgame\\Serde\\Test\\": "test/"
         }
     },
     "minimum-stability": "dev",
