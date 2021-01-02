@@ -5,9 +5,9 @@ namespace Dgame\Serde\Annotation;
 use Attribute;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-final class DefaultValue
+final class ArrayOf
 {
-    public function __construct(public mixed $value = null)
+    public function __construct(public string $type)
     {
     }
 }

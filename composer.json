@@ -35,7 +35,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Dgame\\Serde\\Test\\": "test/"
+            "Dgame\\Serde\\Test\\": "tests/"
         }
     },
     "minimum-stability": "dev",
