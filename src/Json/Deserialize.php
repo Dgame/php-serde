@@ -1,6 +1,6 @@
 <?php
 
-namespace Dgame\Serde\Deserializer\Json;
+namespace Dgame\Serde\Json;
 
 use stdClass;
 

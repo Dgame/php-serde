@@ -93,20 +93,16 @@ final class UserDefinedObjectDeserializer implements Deserializer
 
     public function deserialize(mixed $input): object
     {
-        if (is_array($input)) {
-            $input = (object) $input;
-        }
-
         assert($input instanceof stdClass);
 
         $object = $this->reflection->newInstanceWithoutConstructor();
         foreach ($this->propertyDeserializer as $propertyName => $deserializer) {
-            $value = $this->extractValue($input, $propertyName);
             if (!$this->reflection->hasProperty($propertyName)) {
                 continue;
             }
 
             $property = $this->reflection->getProperty($propertyName);
+            $value = $this->extractValue($input, $propertyName);
             if ($value === null && $property->hasDefaultValue()) {
                 continue;
             }
@@ -139,10 +135,7 @@ final class UserDefinedObjectDeserializer implements Deserializer
                 continue;
             }
 
-            $value = $input->{$alias};
-            unset($input->{$alias});
-
-            return $value;
+            return $input->{$alias};
         }
 
         return null;
