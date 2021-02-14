@@ -1,9 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dgame\Serde\Deserializer;
 
 use ReflectionClass;
+use ReflectionException;
 use ReflectionNamedType;
+use ReflectionType;
 use ReflectionUnionType;
 
 final class DeserializerReflectionTypeFactory
@@ -18,20 +22,24 @@ final class DeserializerReflectionTypeFactory
             'array' => new ArrayDeserializer(new MixedValueDeserializer()),
             'object', 'Closure', 'stdClass' => new ObjectDeserializer(),
             'mixed' => new MixedValueDeserializer(),
-            default => new UserDefinedObjectDeserializer(new ReflectionClass($type))
+            default => new UserDefinedObjectDeserializer(self::getReflectionFor($type))
         };
     }
 
-    public static function fromReflectionNamedType(ReflectionNamedType $type): Deserializer
+    public static function fromReflectionNamedType(ReflectionType $type): Deserializer
     {
         if ($type instanceof ReflectionUnionType) {
             return self::fromReflectionUnionType($type);
         }
 
-        if ($type->isBuiltin()) {
-            $deserializer = self::parse($type->getName());
+        if ($type instanceof ReflectionNamedType) {
+            if ($type->isBuiltin()) {
+                $deserializer = self::parse($type->getName());
+            } else {
+                $deserializer = new UserDefinedObjectDeserializer(self::getReflectionFor($type->getName()));
+            }
         } else {
-            $deserializer = new UserDefinedObjectDeserializer(new ReflectionClass($type->getName()));
+            $deserializer = new MixedValueDeserializer();
         }
 
         if ($type->allowsNull()) {
@@ -50,5 +58,18 @@ final class DeserializerReflectionTypeFactory
         }
 
         return new ChainedDeserializer(...$deserializers);
+    }
+
+    /**
+     * @param string $class
+     *
+     * @return ReflectionClass<object>
+     * @throws ReflectionException
+     */
+    private static function getReflectionFor(string $class): ReflectionClass
+    {
+        assert(class_exists($class));
+
+        return new ReflectionClass($class);
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dgame\Serde\Deserializer;
 
 use stdClass;
@@ -10,6 +12,11 @@ final class ArrayDeserializer implements Deserializer
     {
     }
 
+    /**
+     * @param stdClass|array<mixed, mixed> $input
+     *
+     * @return array<mixed, mixed>
+     */
     public function deserialize(mixed $input): array
     {
         if ($input instanceof stdClass) {
@@ -30,6 +37,9 @@ final class ArrayDeserializer implements Deserializer
         return $output;
     }
 
+    /**
+     * @return array<int, mixed>
+     */
     public function getDefaultValue(): array
     {
         return [];

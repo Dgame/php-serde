@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dgame\Serde\Deserializer;
 
 final class ChainedDeserializer implements Deserializer

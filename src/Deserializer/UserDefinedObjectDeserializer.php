@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dgame\Serde\Deserializer;
 
 use Dgame\Serde\Annotation\Alias;
@@ -22,6 +24,9 @@ final class UserDefinedObjectDeserializer implements Deserializer
      */
     private array $alias = [];
 
+    /**
+     * @param ReflectionClass<object> $reflection
+     */
     public function __construct(private ReflectionClass $reflection)
     {
         foreach ($reflection->getProperties() as $property) {
@@ -64,7 +69,7 @@ final class UserDefinedObjectDeserializer implements Deserializer
         if ($type->isBuiltin() && $type->getName() === 'array') {
             $propertyDeserializer = null;
             foreach ($property->getAttributes(ArrayOf::class) as $attribute) {
-                /** @var ArrayOf $default */
+                /** @var ArrayOf $annotation */
                 $annotation = $attribute->newInstance();
 
                 $propertyDeserializer = new ArrayDeserializer(DeserializerReflectionTypeFactory::parse($annotation->type));
